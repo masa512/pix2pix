@@ -93,4 +93,3 @@ class unet(nn.Module):
         return self.output_conv(y4)
     
 
-# Now time for a discriminator
