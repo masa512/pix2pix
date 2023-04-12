@@ -7,7 +7,7 @@ Gan Modules needed for the implementation
 
 Part 1 : U-Net
 
-
+Another fucking comment
 Part 2 : Discriminator (Just use AlexNet)
 
 """
