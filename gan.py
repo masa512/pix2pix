@@ -13,10 +13,10 @@ Part 2 : Discriminator (Just use AlexNet)
 """
 
 # First the Conv Module
-'''
+
 class conv_seq(nn.Module):
     def __init__(self, in_channels, out_channels,kernel_size):
-        print('WHAT')
+        super(conv_seq,self).__init__()
         self.in_channels = in_channels
         self.out_channels = out_channels
         self.kernel_size = kernel_size
@@ -34,7 +34,7 @@ class conv_seq(nn.Module):
         x = self.bn(x)
         x = self.relu(x)
         return x
-'''
+
 class usamp_block(nn.Module):
     
     def __init__(self, in_channels, out_channels):
@@ -42,7 +42,7 @@ class usamp_block(nn.Module):
         self.in_channels = in_channels
         self.out_channels = out_channels
         self.upsample = nn.UpsamplingBilinear2d(scale_factor=2)
-        self.c_conv = nn.Conv2d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=1, padding = 1)
+        self.c_conv = nn.Conv2d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=1, padding = 0)
         self.d_conv = nn.Conv2d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=3, padding = 1)
     def forward(self,x,s):
         x = self.c_conv(self.upsample(x))
@@ -57,7 +57,7 @@ class usamp_block(nn.Module):
 class unet(nn.Module):
 
     def __init__(self,in_channels,base_channels,out_channels):
-        #super(unet,self).__init__()
+        super(unet,self).__init__()
         self.input_conv = conv_seq(in_channels=in_channels,out_channels=base_channels,kernel_size=3)
         self.pool = nn.MaxPool2d(2,2)
         self.upsample = nn.UpsamplingNearest2d(scale_factor=2)
@@ -66,7 +66,7 @@ class unet(nn.Module):
         self.conv3 = conv_seq(in_channels=base_channels*4,out_channels=base_channels*8,kernel_size=3)
         self.conv4 = conv_seq(in_channels=base_channels*8,out_channels=base_channels*16,kernel_size=3)
 
-        self.output_conv = nn.Conv2d(in_channels=base_channels, out_channels=self.out_channels, kernel_size=1, padding = 0)
+        self.output_conv = nn.Conv2d(in_channels=base_channels, out_channels=out_channels, kernel_size=1, padding = 0)
 
         self.us1 = usamp_block(base_channels*16, base_channels*8)
         self.us2 = usamp_block(base_channels*8, base_channels*4)
@@ -87,8 +87,8 @@ class unet(nn.Module):
         y1 = self.us1(e4,e3)
         y2 = self.us2(y1,e2)
         y3 = self.us3(y2,e1)
-        y4 = self.us3(y3,x_in)
-
+        y4 = self.us4(y3,x_in)
+        
         return self.output_conv(y4)
     
 
