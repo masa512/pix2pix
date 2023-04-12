@@ -36,7 +36,7 @@ class conv_seq(nn.Module):
         x = self.relu(x)
         return x
 
-class usamp_block(nn.Modue):
+class usamp_block(nn.Module):
     
     def __init__(self, in_channels, out_channels):
         super(self,usamp_block).__init__()
