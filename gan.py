@@ -42,8 +42,6 @@ class usamp_block(nn.Modue):
         super(self,usamp_block).__init__()
         self.in_channels = in_channels
         self.out_channels = out_channels
-
-
         self.upsample = nn.UpsamplingBilinear2d(scale_factor=2)
         self.c_conv = nn.Conv2d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=1, padding = 1)
         self.d_conv = nn.Conv2d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=3, padding = 1)
