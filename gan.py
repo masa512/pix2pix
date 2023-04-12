@@ -13,11 +13,10 @@ Part 2 : Discriminator (Just use AlexNet)
 """
 
 # First the Conv Module
-
+'''
 class conv_seq(nn.Module):
-    
     def __init__(self, in_channels, out_channels,kernel_size):
-        super(self,conv_seq).__init__()
+        print('WHAT')
         self.in_channels = in_channels
         self.out_channels = out_channels
         self.kernel_size = kernel_size
@@ -35,11 +34,11 @@ class conv_seq(nn.Module):
         x = self.bn(x)
         x = self.relu(x)
         return x
-
+'''
 class usamp_block(nn.Module):
     
     def __init__(self, in_channels, out_channels):
-        super(self,usamp_block).__init__()
+        super(usamp_block,self).__init__()
         self.in_channels = in_channels
         self.out_channels = out_channels
         self.upsample = nn.UpsamplingBilinear2d(scale_factor=2)
@@ -58,7 +57,7 @@ class usamp_block(nn.Module):
 class unet(nn.Module):
 
     def __init__(self,in_channels,base_channels,out_channels):
-
+        #super(unet,self).__init__()
         self.input_conv = conv_seq(in_channels=in_channels,out_channels=base_channels,kernel_size=3)
         self.pool = nn.MaxPool2d(2,2)
         self.upsample = nn.UpsamplingNearest2d(scale_factor=2)
